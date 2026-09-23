@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html {
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { @apply text-navy; line-height: 1.2; letter-spacing: -0.01em; }
+  :focus-visible {
+    outline: 3px solid #9A5334;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  img, video, svg { max-width: 100%; }
+  dialog::backdrop { background: rgba(16, 36, 64, 0.45); }
+}
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .field-input {
+    @apply block w-full min-h-[44px] rounded-lg border border-line bg-white px-3.5 py-2.5 text-base text-ink;
+    @apply focus:border-lavender focus:outline-none focus:ring-2 focus:ring-lavender/40;
+  }
+  .field-label { @apply block text-[15px] font-semibold text-navy; }
+  .help { @apply text-sm text-muted; }
+  .choice {
+    @apply relative flex min-h-[44px] cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-[15px] text-ink transition-colors;
+  }
+  .choice:hover { @apply border-navy/40; }
+  .choice:has(input:checked) { @apply border-navy bg-navy text-white; }
+  .choice:has(input:focus-visible) { outline: 3px solid #9A5334; outline-offset: 2px; }
+  .option-card {
+    @apply relative block cursor-pointer rounded-2xl border-2 border-line bg-white p-5 text-left transition-colors;
+  }
+  .option-card:hover { @apply border-navy/30; }
+  .option-card:has(input:checked) { @apply border-navy; background: #F3E1DA; }
+  .option-card:has(input:focus-visible) { outline: 3px solid #9A5334; outline-offset: 2px; }
+  .option-card:has(input:disabled) { @apply cursor-not-allowed border-dashed bg-paper; }
+  .frame-oak {
+    background: linear-gradient(135deg, #D8BF98 0%, #C8A77A 45%, #B8956A 100%);
+  }
+}
+
+/* Chuyển động minh họa: chỉ chạy khi ảnh "sống lại" và người dùng không tắt motion. */
+.art .anim { transform-box: fill-box; transform-origin: center; }
+.art.alive .scene { animation: breathe 9s ease-in-out infinite alternate; transform-origin: 50% 60%; }
+.art.alive .drift { animation: drift 7s ease-in-out infinite alternate; }
+.art.alive .rise { animation: rise 5s ease-in-out infinite alternate; }
+.art.alive .wave { animation: wave 4s ease-in-out infinite alternate; }
+.art.alive .flicker { animation: flicker 0.9s ease-in-out infinite alternate; }
+.art.alive .float { animation: float 3.2s ease-in-out infinite; }
+.art.alive .steam { animation: steam 3s ease-in-out infinite; }
+.art.alive .sway { animation: sway 3.5s ease-in-out infinite alternate; }
+
+@keyframes breathe { from { transform: scale(1); } to { transform: scale(1.06); } }
+@keyframes drift { from { transform: translateX(-12px); } to { transform: translateX(14px); } }
+@keyframes rise { from { transform: translateY(8px); } to { transform: translateY(-10px); } }
+@keyframes wave { from { transform: translateX(-10px); } to { transform: translateX(10px); } }
+@keyframes flicker { from { transform: scaleY(0.85); opacity: .85; } to { transform: scaleY(1.1); opacity: 1; } }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-16px) rotate(6deg); } }
+@keyframes steam { 0% { transform: translateY(6px); opacity: 0; } 40% { opacity: .8; } 100% { transform: translateY(-18px); opacity: 0; } }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes scanline { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
+@keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
+
+.scan-line { animation: scanline 1.6s ease-in-out infinite alternate; }
+.reveal { animation: reveal .6s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Landing: thiết kế chuẩn ở 1440px, mọi kích thước co giãn theo bề ngang màn hình. */
+@layer components {
+  .lwrap { @apply mx-auto w-full max-w-[1600px] px-5 sm:px-8; }
+  @media (min-width: 1024px) { .lwrap { max-width: none; padding-left: 7.5vw; padding-right: 7.5vw; } }
+  .t-h1 { font-size: clamp(2.2rem, 3.35vw, 4.4rem); line-height: 1.1; }
+  .t-h2 { font-size: clamp(1.9rem, 2.55vw, 3.3rem); line-height: 1.14; }
+  .t-h3 { font-size: clamp(1.6rem, 2.15vw, 2.7rem); line-height: 1.2; }
+  .t-body { font-size: clamp(0.95rem, 1.08vw, 1.2rem); line-height: 1.65; }
+  .t-small { font-size: clamp(0.875rem, 0.98vw, 1.08rem); line-height: 1.6; }
+  .t-label { font-size: clamp(0.78rem, 0.84vw, 0.95rem); }
+  .sec-y { padding-top: clamp(56px, 6.6vw, 128px); padding-bottom: clamp(56px, 6.6vw, 128px); }
+  .fade-y { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent); }
+  /* Mờ cả bốn mép để ảnh cắt từ mockup hòa vào nền, không lộ khung chữ nhật. */
+  .fade-edges {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+    mask-composite: intersect;
+  }
+  .fade-tr {
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 22%), linear-gradient(to bottom, transparent, #000 22%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to left, transparent, #000 22%), linear-gradient(to bottom, transparent, #000 22%);
+    mask-composite: intersect;
+  }
+  .fade-r { -webkit-mask-image: linear-gradient(to left, transparent, #000 14%); mask-image: linear-gradient(to left, transparent, #000 14%); }
+}
+
+/* ===== Landing V2: chuyển động (tắt hết khi người dùng chọn giảm chuyển động) ===== */
+@keyframes v2-kenburns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.1) translate(-1.5%, -1%); } }
+@keyframes v2-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes v2-live { from { transform: scale(1.04); } to { transform: scale(1.14) translate(-2%, -2%); } }
+@keyframes v2-progress { from { width: 0; } to { width: 100%; } }
+@layer components {
+  .v2-kenburns { animation: v2-kenburns 22s ease-in-out infinite alternate; transform-origin: 70% 50%; }
+  .v2-in { opacity: 0; animation: v2-rise 1.1s cubic-bezier(.2,.7,.2,1) forwards; }
+  .v2-reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .v2-reveal[data-shown='true'] { opacity: 1; transform: none; }
+  .v2-live { animation: v2-live 7s ease-in-out infinite alternate; }
+  .v2-progress { animation: v2-progress 7s linear infinite; }
+  .v2-write { clip-path: inset(0 100% 0 0); transition: clip-path 2.4s cubic-bezier(.6,.05,.3,1); }
+  .v2-write[data-shown='true'] { clip-path: inset(0 0 0 0); }
+  .v2-noscrollbar { scrollbar-width: none; }
+  .v2-noscrollbar::-webkit-scrollbar { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2-in, .v2-reveal, .v2-write { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+}
+
+/* Landing V6: dải cuộn camera ở phần "Vì sao có Chạm" */
+@keyframes v6-roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@layer components {
+  .v6-roll { animation: v6-roll var(--dur, 70s) linear infinite; }
+  .v6-roll-rev { animation-direction: reverse; }
+  .v6-fade-x { -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .v6-roll { animation: none; } }
+
+/* Landing V7: tiêu đề Fraunces (số kiểu thẳng hàng, không tụt dòng), chữ hiện nhanh hơn khi cuộn */
+.v7 .font-serif { font-family: 'Fraunces', Georgia, 'Times New Roman', serif; font-variant-numeric: lining-nums; font-optical-sizing: auto; letter-spacing: -0.01em; }
+.v7 .v2-reveal { transition-duration: 0.5s; }
+.v7 .v2-reveal:not([data-shown='true']) { transform: translateY(12px); }
+
+/* Trang /memory: khung ngắm khi đang dò ảnh, "thở" nhẹ để báo camera đang tìm. */
+@keyframes memory-guide { from { opacity: .55; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+.memory-guide { animation: memory-guide 1.4s ease-in-out infinite alternate; }
+.font-display { font-variant-numeric: lining-nums; font-optical-sizing: auto; letter-spacing: -0.01em; }

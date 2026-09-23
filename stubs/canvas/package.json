@@ -1,0 +1,8 @@
+{
+  "name": "canvas",
+  "version": "2.11.2",
+  "private": true,
+  "description": "Stub. mind-ar lists node-canvas as a dependency but only uses it in its Node offline compiler, which this app does not use. The native build breaks npm install on many machines and on Vercel, so package.json overrides it with this stub.",
+  "main": "index.js",
+  "type": "commonjs"
+}
